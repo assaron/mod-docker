@@ -1,10 +1,8 @@
-version: "3.8"
+version: "3"
 services:
-  mod-host:
-    image: mod-host:latest
-    container_name: mod-host
-    stdin_open: true # docker run -i
-    tty: true # docker run
+  mod-docker:
+    image: mod-docker:latest
+    container_name: mod-docker
     environment:
       - USER_NAME=${USER_NAME}
       - GROUP_NAME=${GROUP_NAME}
@@ -12,30 +10,10 @@ services:
       - GROUP_ID=${GROUP_ID}
     volumes:
       - /dev/shm:/dev/shm:rw
+    devices:
+      - /dev/snd
     build:
-      context: ./mod-host
-    ulimits:
-      memlock: 819200000
-      rtprio: 99
-    expose:
-      - "5555"
-      - "5556"
-    ports:
-      - 5555:5555
-      - 5556:5556
-
-  mod-ui:
-    image: mod-ui:latest
-    container_name: mod-ui
-    environment:
-      - USER_NAME=${USER_NAME}
-      - GROUP_NAME=${GROUP_NAME}
-      - USER_ID=${USER_ID}
-      - GROUP_ID=${GROUP_ID}
-    volumes:
-      - /dev/shm:/dev/shm:rw
-    build:
-      context: ./mod-ui
+      context: ./mod-docker
     ulimits:
       memlock: 819200000
       rtprio: 99
