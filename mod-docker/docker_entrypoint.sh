@@ -9,16 +9,17 @@
 # 	&& gosu ${USER_NAME} python3 /mod/mod-ui/server.py
 # 
 
+set -e
+
+
 
 export JACK_NO_AUDIO_RESERVATION=1 
-jackd --realtime -P 50 -d alsa -n 3 --period 256 --device hw:USB --rate 96000 &
+gosu $MOD_USER:audio jackd --realtime -P 50 -d alsa -n 3 --period 256 --device hw:USB --rate 96000 &
 
-sleep 1
+sleep 2
 
-mod-host -p 5555 -f 5556 &
+gosu $MOD_USER:audio mod-host -p 5555 -f 5556 -v -n &
 
-sleep 1
-
-exec python3 /mod/mod-ui/server.py 	
+gosu $MOD_USER:audio bash -c "HOME=/mod python3 /mod/mod-ui/server.py"
 
 

@@ -47,19 +47,24 @@ ENV USE_STANDARD_JACK_OUTPUTS = 1
 ENV MOD_HOST_ADDR="localhost"
 RUN chown :audio -R /mod/mod-ui && chmod -R 775 /mod/mod-ui
 
+# install gosu for a better su+exec command
+ARG GOSU_VERSION=1.14
+RUN dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
+	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
+	&& chmod +x /usr/local/bin/gosu \
+	&& gosu nobody true 
+
+ENV HOME=/mod
+ENV MOD_USER=root
+
+RUN mkdir /mod/.pedalboards
 
 COPY docker_entrypoint.sh /
 
 CMD /docker_entrypoint.sh 
 
-# # install gosu for a better su+exec command
-# ARG GOSU_VERSION=1.12
-# RUN dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
-# 	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
-# 	&& chmod +x /usr/local/bin/gosu \
-# 	&& gosu nobody true 
-# 
-# 
+ 
+ 
 # # Run mod host
 # # Generate user same as host . (It will need to connect to host jack with same username)
 # CMD echo ${USER_NAME} && echo ${GROUP_NAME} \ 

@@ -4,12 +4,10 @@ services:
     image: mod-docker:latest
     container_name: mod-docker
     environment:
-      - USER_NAME=${USER_NAME}
-      - GROUP_NAME=${GROUP_NAME}
-      - USER_ID=${USER_ID}
-      - GROUP_ID=${GROUP_ID}
+      - MOD_USER=${MOD_USER}
     volumes:
       - /dev/shm:/dev/shm:rw
+      - ./pedalboards:/mod/.pedalboards  
     devices:
       - /dev/snd
     build:
