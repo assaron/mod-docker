@@ -18,7 +18,8 @@ RUN apt install build-essential -y --no-install-recommends
 RUN make -C /mod/mod-host/source && make install -C  /mod/mod-host/source
 
 # Install LV2 Plugins from MOD Repo (to extract modgui data)
-RUN apt-get update && apt-get install -y --no-install-recommends kxstudio-meta-audio-plugins kxstudio-meta-audio-plugins-lv2 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    kxstudio-meta-audio-plugins kxstudio-meta-audio-plugins-lv2 guitarix-lv2
 RUN git clone https://github.com/moddevices/mod-lv2-data.git /mod/mod-host/mod-lv2-data
 RUN echo
 COPY ./copy_modguis.sh /mod/mod-host
@@ -63,7 +64,6 @@ COPY docker_entrypoint.sh /
 
 CMD /docker_entrypoint.sh 
 
- 
  
 # # Run mod host
 # # Generate user same as host . (It will need to connect to host jack with same username)
