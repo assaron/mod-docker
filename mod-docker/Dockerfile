@@ -58,6 +58,8 @@ RUN dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
 ENV HOME=/mod
 ENV MOD_USER=root
 
+ENV JACK_OPTIONS="-n 3 --period 256 --device hw:USB --rate 96000"
+
 RUN mkdir /mod/.pedalboards
 
 COPY docker_entrypoint.sh /

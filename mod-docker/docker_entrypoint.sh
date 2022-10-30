@@ -14,7 +14,7 @@ set -e
 
 
 export JACK_NO_AUDIO_RESERVATION=1 
-gosu $MOD_USER:audio jackd --realtime -P 50 -d alsa -n 3 --period 256 --device hw:USB --rate 96000 &
+gosu $MOD_USER:audio jackd --realtime -P 50 -d alsa $JACK_OPTIONS &
 
 sleep 2
 

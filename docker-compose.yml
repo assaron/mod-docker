@@ -5,6 +5,7 @@ services:
     container_name: mod-docker
     environment:
       - MOD_USER=${MOD_USER}
+      - JACK_OPTIONS=-n 3 --period 256 --device hw:USB --rate 96000
     volumes:
       - /dev/shm:/dev/shm:rw
       - ./pedalboards:/mod/.pedalboards  
