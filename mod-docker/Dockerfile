@@ -63,6 +63,7 @@ ENV JACK_OPTIONS="-n 3 --period 256 --device hw:USB --rate 96000"
 RUN mkdir /mod/.pedalboards
 
 COPY docker_entrypoint.sh /
+COPY watcher.py /
 
 CMD /docker_entrypoint.sh 
 

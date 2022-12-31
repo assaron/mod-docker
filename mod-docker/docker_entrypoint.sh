@@ -15,11 +15,14 @@ set -e
 
 export JACK_NO_AUDIO_RESERVATION=1 
 gosu $MOD_USER:audio jackd --realtime -P 50 -d alsa $JACK_OPTIONS &
+JACKD_PID=$!
 
 sleep 2
 
 gosu $MOD_USER:audio mod-host -p 5555 -f 5556 -v -n &
+MODHOST_PID=$!
 
-gosu $MOD_USER:audio bash -c "HOME=/mod python3 /mod/mod-ui/server.py"
+gosu $MOD_USER:audio bash -c "HOME=/mod python3 /mod/mod-ui/server.py" |& /watcher.py -t 7200 $JACKD_PID $MODHOST_PID
+
 
 
